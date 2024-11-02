@@ -1,4 +1,5 @@
 import random
+
 class card(): #this class is to deal with ind. cards and their format of display:
   def __init__(self, suit, rank):
     self.suit = suit
@@ -73,7 +74,7 @@ class hand():
     print("Dealer\'s hand:") if self.dealer else print("Your hand:")
     for index,card in enumerate(self.cards):
       if index == 0 and self.dealer and not show_all_cards \
-      and not self.is_blackjack():
+      and not self.is_blackjack(): #the if condition is for dealer only
         print("Hidden")
       else:
         print(card)
@@ -122,15 +123,17 @@ class game():
 
       choice = ""
       while player_hand.get_value() < 21 and choice not in ["s", "stand"]:
-        choice = input("stand or hit? (s/h): ").lower()
+        choice = input("stand or hit? (s/h): ").lower() #asking for the choice 1st time
         print()
-        while choice not in ["h", "s", "stand", "hit"]:
+        while choice not in ["h", "s", "stand", "hit"]: #if user inputs anything except for these elements, the choice will be asked again.
           choice = input("stand or hit? (s/h): ").lower()
           print()
         if choice == "hit" or choice == "h":   
           player_hand.add_card(deck1.deal(1))
           player_hand.display()
 
+
+      #this entire code is for the stand choice:
       if self.check_winner(player_hand, dealer_hand):
         continue
 
@@ -139,9 +142,9 @@ class game():
 
       while dealer_hand_value < 17:
         dealer_hand.add_card(deck1.deal(1))
-        dealer_hand_value = dealer_hand.get_value() #updation
+        dealer_hand_value = dealer_hand.get_value() 
 
-      dealer_hand.display(show_all_cards = True)
+      dealer_hand.display(show_all_cards = True) #to show the hidden card as well
 
       if self.check_winner(player_hand, dealer_hand):
         continue
@@ -150,12 +153,12 @@ class game():
       print("Your hand: ",player_hand_value)
       print("Dealer's hand: ",dealer_hand_value)
 
-      self.check_winner(player_hand, dealer_hand, True)
+      self.check_winner(player_hand, dealer_hand, True) #this marks the end of the game.
 
     print("\nThanks for playing!")
           
   def check_winner(self, player_hand, dealer_hand, game_over = False):
-    if not game_over:
+    if not game_over: #this case is for hit i.e. the player is asking for more cards for higher value
       if dealer_hand.get_value() > 21:
         print("Dealer busted. You win!")
         return True
@@ -171,7 +174,7 @@ class game():
       elif player_hand.is_blackjack() and dealer_hand.is_blackjack():
         print("Both have blackjacks. It's a tie!")
         return True
-    else:
+    else: #this case is for stand i.e. the players do not ask for any more cards
       if player_hand.get_value() > dealer_hand.get_value():
         print("You win!")
       elif player_hand.get_value() == dealer_hand.get_value():
