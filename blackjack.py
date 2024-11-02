@@ -1,5 +1,4 @@
 import random
-
 class card(): #this class is to deal with ind. cards and their format of display:
   def __init__(self, suit, rank):
     self.suit = suit
